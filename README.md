@@ -1,4 +1,4 @@
-# Classifying_Chessmen
+# Chessmen Classification Using Deep Learning
 This project aims to classify chess pieces (e.g., King, Queen, Bishop, etc.) using a deep learning model. The solution involves data preprocessing, model training, and deploying the trained model as a Flask web service.
 
 ## Problem Description
@@ -30,7 +30,7 @@ EDA was conducted to understand the dataset better, including:
 - Evaluation metric: Accuracy.
 - Training/Validation Split: 80/20 ratio.
 - Results: VGG19 outperformed other models due to its simplicity and efficiency in handling this dataset.
-- Finally trained the larger model (image_size - 299 x 299) in train.py which gave 98.2% accuracy on validation_data.
+- Finally trained the larger model (**image_size - 299 x 299**) in `train.py` which gave **98.2%** accuracy on validation_data.
 
 ### 3. **Exporting Notebook to Script**
 - To streamline deployment, the Jupyter Notebook was converted into a Python script. This ensures reproducibility and simplifies integration into the deployment pipeline.
