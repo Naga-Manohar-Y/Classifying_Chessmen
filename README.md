@@ -12,17 +12,17 @@ Chess is a game of strategy, precision, and intellectual mastery. Accurately ide
 ### 1. **Exploratory Data Analysis (EDA)**
 EDA was conducted to understand the dataset better, including:
 - **Dataset Overview:** This dataset is structured into six directories, one for each chess piece. Each subfolder contains labeled images of the respective chess piece.
-- Source: (Kaggle Chessman Dataset)[https://www.kaggle.com/datasets/niteshfre/chessman-image-dataset/data]
+- **Source:** [Kaggle Chessman Dataset](https://www.kaggle.com/datasets/niteshfre/chessman-image-dataset/data)
 - Class distribution, total samples, and data augmentation techniques are there is notebook file.
 - **Visualizations:** Sample images of each chess piece and their respective pixel distributions.
 - **Insights:** Key observations that influenced preprocessing and model architecture decisions.
 
 ### 2. **Model Training**
 - Model Architectures used:
-  - VGG19
-  - MobileNet
-  - ResNet50
-  - Xception
+  - **VGG19**
+  - **MobileNet**
+  - **ResNet50**
+  - **Xception**
 - Training Process:
   - Fine-tuned with adjusted learning rate, dropout, and selective unfreezing of layers.
   - Pre-trained on ImageNet and performed exceptionally well on this dataset.
@@ -34,9 +34,10 @@ EDA was conducted to understand the dataset better, including:
 
 ### 3. **Exporting Notebook to Script**
 - To streamline deployment, the Jupyter Notebook was converted into a Python script. This ensures reproducibility and simplifies integration into the deployment pipeline.
-- train.py for training the model
-- chessmen_predict.py for inference
-- Note: If you want try tensorflowlite model refer to tflite_model.py
+- `train.py` for training the model
+- `predict.py` for inference from web service
+- `chessmen_predict.py` for inference from web service
+- Note: If you want try tensorflowlite model refer to `tflite_model.py`
 
 ### 4. **Model Deployment**
 The trained model was deployed as a RESTful API using Flask and Gunicorn. The service allows users to:
@@ -46,8 +47,8 @@ The trained model was deployed as a RESTful API using Flask and Gunicorn. The se
 **API Endpoint**:
 
 - POST /predict
-- Input: JSON object with the image URL.
-- Output: Predicted class and probabilities.
+  - Input: JSON object with the image URL.
+  - Output: Predicted class and probabilities.
 ```bash
 curl -X POST -H "Content-Type: application/json" \
 -d '{"url": "https://example.com/chess_piece.jpg"}' \
@@ -91,10 +92,10 @@ http://localhost:9696/predict
 
 ### Steps to Run Locally
 1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/Naga-Manohar-Y/Chessmen_Classification.git
-   cd Chessmen_Classification
-   ```
+```bash
+git clone https://github.com/Naga-Manohar-Y/Chessmen_Classification.git
+cd Chessmen_Classification
+```
 2. **Install Dependencies**:
 
 ```bash
@@ -102,12 +103,14 @@ pip install pipenv
 pipenv install
 ```
 This will create a virtual environment and install all required dependencies for the project.
+
 3. **Train the Model**:
 
 ```bash
 python train.py
 ```
 This script will train the model using the training dataset, and save the models with the help of checkpointing, which can then be used for predictions.
+
 4. **Build the Docker Image**:
 
 After ensuring that the project files are in place, build the Docker image by running the following command in the project directory:
