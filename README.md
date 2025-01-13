@@ -1,14 +1,112 @@
 # Classifying_Chessmen
-Exploring Deep Learning for Chess Image Analysis
+This project aims to classify chess pieces (e.g., King, Queen, Bishop, etc.) using a deep learning model. The solution involves data preprocessing, model training, and deploying the trained model as a Flask web service.
 
-**2.EfficientNet**
-Why: EfficientNet balances accuracy and computational efficiency by scaling depth, width, and resolution effectively. Chess piece classification may involve high-resolution images, and EfficientNet adapts well to such scenarios.
-Strength: It offers high performance while being computationally lightweight, making it ideal for scalability.
-Recommended Variant: Start with EfficientNetB0 for its simplicity, and move to B1 or B2 if better accuracy is needed.
-**3. DenseNet**
-Why: DenseNet connects each layer to every other layer, ensuring efficient feature reuse and gradient flow. This is helpful for small, structured datasets like chess pieces where details are paramount.
-Strength: Dense connections help extract subtle variations in shapes and textures, which is ideal for differentiating between similar chess pieces like pawns and rooks.
-Recommended Variant: DenseNet121 (lighter model with excellent feature extraction capabilities).
-**4. InceptionV3 (Bonus Option)**
-Why: InceptionV3 employs multiple filter sizes in a single convolution layer, which is excellent for capturing features at different scales. Chess piece images might have variations in size, orientation, and perspective, which this model handles well.
-Strength: Robust against variability in image size and orientation.
+## Problem Description
+
+Chess piece classification is a common computer vision problem where the goal is to accurately identify individual chess pieces in images. This project uses a convolutional neural network (CNN) to achieve high classification accuracy.
+
+---
+
+## Project Workflow
+
+### 1. **Exploratory Data Analysis (EDA)**
+EDA was conducted to understand the dataset better, including:
+- **Dataset Overview:** Class distribution, total samples, and data augmentation techniques.
+- **Visualizations:** Sample images of each chess piece and their respective pixel distributions.
+- **Insights:** Key observations that influenced preprocessing and model architecture decisions.
+
+### 2. **Model Training**
+- Model Architecture: VGG19 was used as the base model for feature extraction, with a custom fully connected layer for classification.
+- Training Process:
+- Loss function: Categorical Cross-Entropy.
+- Optimizer: Adam.
+- Evaluation metric: Accuracy.
+- Training/Validation Split: 80/20 ratio.
+- Results: The final model achieved an accuracy of 98.2% on the validation set.
+
+### 3. **Exporting Notebook to Script**
+   - To streamline deployment, the Jupyter Notebook was converted into a Python script. This ensures reproducibility and simplifies integration into the deployment pipeline.
+
+### 4. **Model Deployment**
+The trained model was deployed as a RESTful API using Flask and Gunicorn. The service allows users to:
+
+- Send an image URL to the endpoint.
+- Receive predictions, including the class label and probabilities for all classes.
+**API Endpoint**:
+
+- POST /predict
+- Input: JSON object with the image URL.
+- Output: Predicted class and probabilities.
+```bash
+curl -X POST -H "Content-Type: application/json" \
+-d '{"url": "https://example.com/chess_piece.jpg"}' \
+http://localhost:9696/predict
+
+```
+
+### 5. **Reproducibility**
+Reproducibility is ensured by using clear scripts (`train.py` and `chessmen_predict.py`), specifying dependencies in `Pipfile`, and documenting each step.
+
+---
+
+## Dependency and Environment Management
+
+- **Pipfile** and **Pipfile.lock** are used to define and lock the Python dependencies for the project.
+- **Key Dependencies**:
+  - tensorflow
+  - keras
+  - Flask
+  - pandas
+  - numpy
+  - pillow
+
+---
+
+## Containerization
+
+- A **Dockerfile** is provided for containerizing the application. The Docker container includes the following:
+  - Installation of required dependencies using `pipenv`.
+  - Configuration of the Flask app for serving predictions.
+  - Exposing port `9696` for the web service.
+
+---
+
+## How to Run It
+
+### Prerequisites
+- Python 3.12+
+- Docker (for containerized deployment)
+
+### Steps to Run Locally
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/Naga-Manohar-Y/Chessmen_Classification.git
+   cd Chessmen_Classification
+   ```
+2. **Install Dependencies**:
+
+```bash
+pip install pipenv
+pipenv install
+```
+This will create a virtual environment and install all required dependencies for the project.
+3. **Train the Model**:
+
+```bash
+python train.py
+```
+This script will train the model using the training dataset, and save the models with the help of checkpointing, which can then be used for predictions.
+4. **Build the Docker Image**:
+
+After ensuring that the project files are in place, build the Docker image by running the following command in the project directory:
+```bash
+docker build -t chessmen:latest .
+```
+5. **Run the Docker Container**:
+
+Once the Docker image is built, you can run the container:
+```bash
+docker run -p 9696:9696 chessmen:latest
+This will run the application inside a Docker container and map port 9696 from the container to your local machine.
+```
+
