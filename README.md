@@ -93,8 +93,8 @@ http://localhost:9696/predict
 ### Steps to Run Locally
 1. **Clone the Repository**:
 ```bash
-git clone https://github.com/Naga-Manohar-Y/Chessmen_Classification.git
-cd Chessmen_Classification
+git clone https://github.com/Naga-Manohar-Y/Classifying_Chessmen.git
+cd Classifying_Chessmen
 ```
 2. **Install Dependencies**:
 
