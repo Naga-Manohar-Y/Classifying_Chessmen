@@ -3,7 +3,7 @@ This project aims to classify chess pieces (e.g., King, Queen, Bishop, etc.) usi
 
 ## Problem Description
 
-Chess piece classification is a common computer vision problem where the goal is to accurately identify individual chess pieces in images. This project uses a convolutional neural network (CNN) to achieve high classification accuracy.
+Chess is a game of strategy, precision, and intellectual mastery. Accurately identifying chess pieces from images is a step toward automating chess game analysis, enhancing digital chess applications, and providing innovative solutions for enthusiasts and developers. This project aims to classify chess pieces—King, Queen, Rook, Bishop, Knight, and Pawn—using advanced machine learning techniques with a focus on accuracy and deployment readiness.
 
 ---
 
@@ -11,21 +11,31 @@ Chess piece classification is a common computer vision problem where the goal is
 
 ### 1. **Exploratory Data Analysis (EDA)**
 EDA was conducted to understand the dataset better, including:
-- **Dataset Overview:** Class distribution, total samples, and data augmentation techniques.
+- **Dataset Overview:** This dataset is structured into six directories, one for each chess piece. Each subfolder contains labeled images of the respective chess piece.
+- Class distribution, total samples, and data augmentation techniques are there is notebook file.
 - **Visualizations:** Sample images of each chess piece and their respective pixel distributions.
 - **Insights:** Key observations that influenced preprocessing and model architecture decisions.
 
 ### 2. **Model Training**
-- Model Architecture: VGG19 was used as the base model for feature extraction, with a custom fully connected layer for classification.
+- Model Architectures used:
+  - VGG19
+  - MobileNet
+  - ResNet50
+  - Xception
 - Training Process:
-- Loss function: Categorical Cross-Entropy.
+  - Fine-tuned with adjusted learning rate, dropout, and selective unfreezing of layers.
+  - Pre-trained on ImageNet and performed exceptionally well on this dataset.
 - Optimizer: Adam.
 - Evaluation metric: Accuracy.
 - Training/Validation Split: 80/20 ratio.
-- Results: The final model achieved an accuracy of 98.2% on the validation set.
+- Results: VGG19 outperformed other models due to its simplicity and efficiency in handling this dataset.
+- Finally trained the larger model (image_size - 299 x 299) in train.py which gave 98.2% accuracy on validation_data.
 
 ### 3. **Exporting Notebook to Script**
-   - To streamline deployment, the Jupyter Notebook was converted into a Python script. This ensures reproducibility and simplifies integration into the deployment pipeline.
+- To streamline deployment, the Jupyter Notebook was converted into a Python script. This ensures reproducibility and simplifies integration into the deployment pipeline.
+- train.py for training the model
+- chessmen_predict.py for inference
+- Note: If you want try tensorflowlite model refer to tflite_model.py
 
 ### 4. **Model Deployment**
 The trained model was deployed as a RESTful API using Flask and Gunicorn. The service allows users to:
@@ -45,7 +55,8 @@ http://localhost:9696/predict
 ```
 
 ### 5. **Reproducibility**
-Reproducibility is ensured by using clear scripts (`train.py` and `chessmen_predict.py`), specifying dependencies in `Pipfile`, and documenting each step.
+- Reproducibility is ensured by using clear scripts (`train.py` and `chessmen_predict.py`), specifying dependencies in `Pipfile`, and documenting each step.
+- Application is containerized using Docker for consistency and scalability.
 
 ---
 
