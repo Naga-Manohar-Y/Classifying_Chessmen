@@ -110,6 +110,20 @@ This will create a virtual environment and install all required dependencies for
 python train.py
 ```
 This script will train the model using the training dataset, and save the models with the help of checkpointing, which can then be used for predictions.
+Now choose the saved model for example `VGG19_v1_14_0.982.keras` and update the model name wherever we are loading (`chessmen_predict.py`) and copying it into docker container.
+```
+chessmen_predict.py:
+
+print("Loading the model...")
+VGG19_model = keras.models.load_model('./VGG19_v1_14_0.982.keras')
+print("Model loaded successfully.")
+
+Dockerfile:
+
+COPY ["chessmen_predict.py","VGG19_v1_14_0.982.keras", "./"]
+
+```
+
 
 4. **Build the Docker Image**:
 
