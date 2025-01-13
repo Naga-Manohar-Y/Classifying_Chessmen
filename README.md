@@ -152,6 +152,14 @@ data['predicted_class']
 ```
 Output:
 ```bash
-'King'
+{"predicted_class":"King",
+"probabilities":{"Bishop":0.0023368641268461943,
+                 "King":0.9764311909675598,
+                 "Knight":0.0006968219531700015,
+                 "Pawn":0.0013725616736337543,
+                 "Queen":0.01652485504746437,
+                 "Rook":0.0026377495378255844
+                 }
+}
 ```
 
