@@ -12,6 +12,7 @@ Chess is a game of strategy, precision, and intellectual mastery. Accurately ide
 ### 1. **Exploratory Data Analysis (EDA)**
 EDA was conducted to understand the dataset better, including:
 - **Dataset Overview:** This dataset is structured into six directories, one for each chess piece. Each subfolder contains labeled images of the respective chess piece.
+- Source: (Kaggle Chessman Dataset)[https://www.kaggle.com/datasets/niteshfre/chessman-image-dataset/data]
 - Class distribution, total samples, and data augmentation techniques are there is notebook file.
 - **Visualizations:** Sample images of each chess piece and their respective pixel distributions.
 - **Insights:** Key observations that influenced preprocessing and model architecture decisions.
