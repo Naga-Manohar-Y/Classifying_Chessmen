@@ -136,6 +136,22 @@ docker build -t chessmen:latest .
 Once the Docker image is built, you can run the container:
 ```bash
 docker run -p 9696:9696 chessmen:latest
+```
 This will run the application inside a Docker container and map port 9696 from the container to your local machine.
+
+6. **Utilize the model as a web service:**
+```bash
+import requests
+
+service_url = 'http://localhost:9696/predict'
+data = {"url": "https://thumbs.dreamstime.com/b/chess-flat-king-icon-stock-vector-image-royal-isolated-piece-outlined-214056020.jpg"}
+
+response = requests.post(service_url, json=data)
+data = response.json()
+data['predicted_class']
+```
+Output:
+```bash
+'King'
 ```
 
