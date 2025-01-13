@@ -115,7 +115,7 @@ print("Training the VGG19 model")
 
 history = model.fit(
     train_ds,
-    epochs=2,
+    epochs=25,
     validation_data=val_ds,
     callbacks=[lr_scheduler, checkpoint]
   )
