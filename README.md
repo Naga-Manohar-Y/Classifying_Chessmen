@@ -13,9 +13,10 @@ Chess is a game of strategy, precision, and intellectual mastery. Accurately ide
 EDA was conducted to understand the dataset better, including:
 - **Dataset Overview:** This dataset is structured into six directories, one for each chess piece. Each subfolder contains labeled images of the respective chess piece.
 - **Source:** [Kaggle Chessman Dataset](https://www.kaggle.com/datasets/niteshfre/chessman-image-dataset/data)
-- Class distribution, total samples, and data augmentation techniques are there is notebook file.
-- **Visualizations:** Sample images of each chess piece and their respective pixel distributions.
-- **Insights:** Key observations that influenced preprocessing and model architecture decisions.
+  - You can directly use the images from this repo before running the `chessmen.ipynb` notebook change the `path` or `DIR` variable to 'Chessman_Images_Data'
+- **Visualizations:** Sample images of each chess piece and their respective pixel distributions. Class distribution, total samples, and data augmentation techniques are displayed in  `chessmen.ipynb` file.
+- **Insights:** Key observation that influenced preprocessing and model architecture decisions is less number of images (600 images).
+  - So I applied data augmentation which helps the model to train on different variations of images.
 
 ### 2. **Model Training**
 - Model Architectures used:
@@ -24,8 +25,9 @@ EDA was conducted to understand the dataset better, including:
   - **ResNet50**
   - **Xception**
 - Training Process:
-  - Fine-tuned with adjusted learning rate, dropout, and selective unfreezing of layers.
-  - Pre-trained on ImageNet and performed exceptionally well on this dataset.
+  - Utilized pre-trained model on ImageNet and performed exceptionally well on this dataset.
+  - Performed parameter tuning with learning rate, dropout, and fine-tuning last k layers.
+  - Fine-tuned  last k layers in the model architecture on chess image data by unfreezing the layers.
 - Optimizer: Adam.
 - Evaluation metric: Accuracy.
 - Training/Validation Split: 80/20 ratio.
@@ -35,8 +37,8 @@ EDA was conducted to understand the dataset better, including:
 ### 3. **Exporting Notebook to Script**
 - To streamline deployment, the Jupyter Notebook was converted into a Python script. This ensures reproducibility and simplifies integration into the deployment pipeline.
 - `train.py` for training the model
-- `predict.py` for inference from web service
-- `chessmen_predict.py` for inference from web service
+- `predict.py` for local inference
+- `chessmen_predict.py` for inference from web service using Flask
 - Note: If you want try tensorflowlite model refer to `tflite_model.py`
 
 ### 4. **Model Deployment**
@@ -44,6 +46,7 @@ The trained model was deployed as a RESTful API using Flask and Gunicorn. The se
 
 - Send an image URL to the endpoint.
 - Receive predictions, including the class label and probabilities for all classes.
+  
 **API Endpoint**:
 
 - POST /predict
