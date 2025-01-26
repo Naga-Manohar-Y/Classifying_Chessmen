@@ -1,6 +1,9 @@
 # Chessmen Classification Using Deep Learning
 This project aims to classify chess pieces (e.g., King, Queen, Bishop, etc.) using a deep learning model. The solution involves data preprocessing, model training, and deploying the trained model as a Flask web service. Finally, the model is deployed on AWS using Lambda, ECR, and API Gateway.
 
+![App]([https://github.com/Naga-Manohar-Y/Classifying_Chessmen/blob/main/Project_Media/Chessman.gif])
+
+
 ## Problem Description
 
 Chess is a game of strategy, precision, and intellectual mastery. Accurately identifying chess pieces from images is a step toward automating chess game analysis, enhancing digital chess applications, and providing innovative solutions for enthusiasts and developers. This project aims to classify chess pieces—King, Queen, Rook, Bishop, Knight, and Pawn—using advanced machine learning techniques with a focus on accuracy and deployment readiness.
