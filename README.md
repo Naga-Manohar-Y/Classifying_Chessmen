@@ -275,8 +275,19 @@ Use the standard build command:
 - Test the Lambda Function via API Gateway
   - Run the python script (cloud_test.py) to test the deployed API Gateway endpoint.
 
-
-
-
-
+4. **Streamlit App**
+- Install streamlit
+  ```bash
+  pip install streamlit
+  ```
+- Run the file chessman_app.py
+  ```bash
+  cd cloud_deploy
+  python chessman_app.py
+  ```
+- Streamlit Interface: User-friendly interface for seamless interaction.
+- Image URL Input: Users can input the URL of a chess piece image.
+- Image Fetching: Fetches and displays the input image for verification.
+- Prediction API Integration: Sends the image to a cloud-hosted prediction API (AWS Lambda) for classification.
+- Prediction Results: Displays the predicted class and its probability with a clear and concise layout.
 
