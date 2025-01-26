@@ -165,13 +165,9 @@ Output:
                  }
 }
 ```
-## Cloud Deployment
-1. **Converting the tensorflow model to tflite**
-   - You can convert your tensorflow model generated after running train.py to tflite. Refer the `tflite_model.py`, where I converted the model and tested for inference.
-   - We use this tflite model (`chessmen-model.tflite`) for cloud deployment.
-2. **Building the docker image for AWS Lambda**
 
 ## ☁️ Cloud Deployment
+**Refer [cloud_deploy](https://github.com/Naga-Manohar-Y/Classifying_Chessmen/tree/main/cloud_deploy) folder.**
 
 1. **Converting the TensorFlow Model to TFLite**
 
@@ -221,5 +217,63 @@ docker run -it --rm -p 8081:8080 chessmen-tflite
 python local_test.py
 ```
 
-3. 
+3. **Publishing the image to AWS ECR**
+- Install AWS CLI
+```bash
+pip install awscli
+```
+- Create a new repository in AWS ECR:
+```bash
+aws ecr create-repository --repository-name chessman-tflite-image
+```
+- After creating the repository, configure the environment variables:
+```bash
+ACCOUNT=481665108850
+REGION=us-east-1
+REGISTRY=chessman-tflite-image
+PREFIX=${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${REGISTRY}
+TAG=chessman-model-vgg-v1
+REMOTE_URI=${PREFIX}:${TAG}
+
+echo ${REMOTE_URI}
+```
+- Tag the locally built Docker image:
+```bash
+docker tag chessmen-tflite:latest ${REMOTE_URI}
+```
+- Push the image to the AWS ECR repository:
+```bash
+docker push ${REMOTE_URI}
+```
+- Create a Lambda Function with the ECR Image
+  - Open the AWS Lambda console.
+  - Choose "Create function" and select the "Container image" option.
+  - Select the image from the ECR repository (chessman-model-vgg-v1) and deploy it.
+- Test the Lambda Function
+  - Update the basic settings for the Lambda function:
+    Memory: 512 MB
+    Timeout: 30 seconds
+  - Create and save a test event with the required input data. For example:
+  ```bash
+  {
+    "url": "https://example.com/image.jpg"
+  }
+  ```
+  - Run the test. Verify that the Lambda function executes successfully and returns the expected output.
+- Expose the Lambda Function via API Gateway
+  - Create a New REST API
+  - Go to the API Gateway console.
+  - Choose "Create API" > "REST API".
+  - Create a new resource for the API.
+  - Create a POST Method
+  - Under the created resource, add a new method with the POST type.
+  - Link the method to the created Lambda function.
+  - Deploy the API by creating a stage (e.g., chessman).
+- Test the Lambda Function via API Gateway
+  - Run the python script (cloud_test.py) to test the deployed API Gateway endpoint:
+
+
+
+
+
 
