@@ -165,4 +165,61 @@ Output:
                  }
 }
 ```
+## Cloud Deployment
+1. **Converting the tensorflow model to tflite**
+   - You can convert your tensorflow model generated after running train.py to tflite. Refer the `tflite_model.py`, where I converted the model and tested for inference.
+   - We use this tflite model (`chessmen-model.tflite`) for cloud deployment.
+2. **Building the docker image for AWS Lambda**
+
+## ☁️ Cloud Deployment
+
+1. **Converting the TensorFlow Model to TFLite**
+
+- Convert your TensorFlow model generated after running `train.py` into a TensorFlow Lite (TFLite) model.
+- Refer to the `tflite_model.py` script, where the conversion is implemented, and inference is tested.
+- Once the model is converted, save it as `chessmen-model.tflite`. This model will be used for cloud deployment.
+
+2. **Building the Docker Image for AWS Lambda**
+
+- Create a `Dockerfile` with the following content:
+
+```Dockerfile
+# Use AWS Lambda Python 3.10 base image
+FROM public.ecr.aws/lambda/python:3.10
+
+# Install necessary Python libraries
+RUN pip install keras-image-helper
+RUN pip install numpy==1.23.1
+RUN pip install --no-deps https://github.com/alexeygrigorev/tflite-aws-lambda/raw/main/tflite/tflite_runtime-2.14.0-cp310-cp310-linux_x86_64.whl
+
+# Copy the TensorFlow Lite model and Lambda function code into the image
+COPY "chessmen-model.tflite" .
+COPY "lambda_function.py" .
+
+# Specify the entry point for the AWS Lambda function
+CMD ["lambda_function.lambda_handler"]
+```
+- For M1/M2 users build the image with --platform=linux/amd64 for compatibility:
+```bash
+docker build --platform=linux/amd64 -t chessmen-tflite .
+```
+- For Other Systems
+Use the standard build command:
+```bash
+docker build -t chessmen-tflite .
+```
+- List the Docker images to confirm the build was successful:
+```bash
+docker images
+```
+- Run the container, mapping the port to 8081 (or any available port):
+```bash
+docker run -it --rm -p 8081:8080 chessmen-tflite
+```
+- Use the local_test.py script to test the container locally. The script should send an HTTP POST request to the running container at http://localhost:8081:
+```bash
+python local_test.py
+```
+
+3. 
 
