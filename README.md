@@ -281,6 +281,7 @@ Use the standard build command:
     ![API_Gateway](https://github.com/Naga-Manohar-Y/Classifying_Chessmen/blob/main/Project_Media/API_Gateway.png)
 - Test the Lambda Function via API Gateway
   - Run the python script (cloud_test.py) to test the deployed API Gateway endpoint.
+    ![Test](https://github.com/Naga-Manohar-Y/Classifying_Chessmen/blob/main/Project_Media/Cloud_Test%20copy.png)
 
 4. **Streamlit App**
 - Install streamlit
