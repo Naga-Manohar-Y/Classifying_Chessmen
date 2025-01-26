@@ -1,5 +1,5 @@
 # Chessmen Classification Using Deep Learning
-This project aims to classify chess pieces (e.g., King, Queen, Bishop, etc.) using a deep learning model. The solution involves data preprocessing, model training, and deploying the trained model as a Flask web service.
+This project aims to classify chess pieces (e.g., King, Queen, Bishop, etc.) using a deep learning model. The solution involves data preprocessing, model training, and deploying the trained model as a Flask web service. Finally, the model is deployed on AWS using Lambda, ECR, and API Gateway.
 
 ## Problem Description
 
@@ -95,76 +95,79 @@ http://localhost:9696/predict
 
 ### Steps to Run Locally
 1. **Clone the Repository**:
-```bash
-git clone https://github.com/Naga-Manohar-Y/Classifying_Chessmen.git
-cd Classifying_Chessmen
-```
+  ```bash
+  git clone https://github.com/Naga-Manohar-Y/Classifying_Chessmen.git
+  cd Classifying_Chessmen
+  ```
 2. **Install Dependencies**:
 
-```bash
-pip install pipenv
-pipenv install
-```
-This will create a virtual environment and install all required dependencies for the project.
+  ```bash
+  pip install pipenv
+  pipenv install
+  ```
+  This will create a virtual environment and install all required dependencies for the project.
 
 3. **Train the Model**:
 
-```bash
-python train.py
-```
-This script will train the model using the training dataset, and save the models with the help of checkpointing, which can then be used for predictions.
-Now choose the saved model for example `VGG19_v1_14_0.982.keras` and update the model name wherever we are loading (`chessmen_predict.py`) and copying it into docker container.
-```
-chessmen_predict.py:
+  ```bash
+  python train.py
+  ```
+  This script will train the model using the training dataset, and save the models with the help of checkpointing, which can then be used for predictions.
+  
+  Now choose the saved model for example `VGG19_v1_14_0.982.keras` and update the model name wherever we are loading (`chessmen_predict.py`) and copying it into docker container.
+  
+  ```
+  chessmen_predict.py:
 
-print("Loading the model...")
-VGG19_model = keras.models.load_model('./VGG19_v1_14_0.982.keras')
-print("Model loaded successfully.")
+  print("Loading the model...")
+  VGG19_model = keras.models.load_model('./VGG19_v1_14_0.982.keras')
+  print("Model loaded successfully.")
 
-Dockerfile:
+  Dockerfile:
 
-COPY ["chessmen_predict.py","VGG19_v1_14_0.982.keras", "./"]
+  COPY ["chessmen_predict.py","VGG19_v1_14_0.982.keras", "./"]
 
-```
+  ```
 
 
 4. **Build the Docker Image**:
 
-After ensuring that the project files are in place, build the Docker image by running the following command in the project directory:
-```bash
-docker build -t chessmen:latest .
-```
+  After ensuring that the project files are in place, build the Docker image by running the following command in the project directory:
+  
+  ```bash
+  docker build -t chessmen:latest .
+  ```
 5. **Run the Docker Container**:
 
-Once the Docker image is built, you can run the container:
-```bash
-docker run -p 9696:9696 chessmen:latest
-```
-This will run the application inside a Docker container and map port 9696 from the container to your local machine.
+  Once the Docker image is built, you can run the container:
+  ```bash
+  docker run -p 9696:9696 chessmen:latest
+  ```
+  This will run the application inside a Docker container and map port 9696 from the container to your local machine.
 
 6. **Utilize the model as a web service:**
-```bash
-import requests
+  ```bash
+  import requests
 
-service_url = 'http://localhost:9696/predict'
-data = {"url": "https://thumbs.dreamstime.com/b/chess-flat-king-icon-stock-vector-image-royal-isolated-piece-outlined-214056020.jpg"}
+  service_url = 'http://localhost:9696/predict'
+  data = {"url": "https://thumbs.dreamstime.com/b/chess-flat-king-icon-stock-vector-image-royal-isolated-piece- outlined-214056020.jpg"}
 
-response = requests.post(service_url, json=data)
-data = response.json()
-data['predicted_class']
-```
-Output:
-```bash
-{"predicted_class":"King",
-"probabilities":{"Bishop":0.0023368641268461943,
+  response = requests.post(service_url, json=data)
+  data = response.json()
+  data['predicted_class']
+  ```
+  Output:
+  ```bash
+  {"predicted_class":"King",
+  "probabilities":{"Bishop":0.0023368641268461943,
                  "King":0.9764311909675598,
                  "Knight":0.0006968219531700015,
                  "Pawn":0.0013725616736337543,
                  "Queen":0.01652485504746437,
                  "Rook":0.0026377495378255844
                  }
-}
-```
+  }
+  ```
 
 ## ☁️ Cloud Deployment
 **Refer [cloud_deploy](https://github.com/Naga-Manohar-Y/Classifying_Chessmen/tree/main/cloud_deploy) folder.**
@@ -179,72 +182,72 @@ Output:
 
 - Create a `Dockerfile` with the following content:
 
-```Dockerfile
-# Use AWS Lambda Python 3.10 base image
-FROM public.ecr.aws/lambda/python:3.10
-
-# Install necessary Python libraries
-RUN pip install keras-image-helper
-RUN pip install numpy==1.23.1
-RUN pip install --no-deps https://github.com/alexeygrigorev/tflite-aws-lambda/raw/main/tflite/tflite_runtime-2.14.0-cp310-cp310-linux_x86_64.whl
-
-# Copy the TensorFlow Lite model and Lambda function code into the image
-COPY "chessmen-model.tflite" .
-COPY "lambda_function.py" .
-
-# Specify the entry point for the AWS Lambda function
-CMD ["lambda_function.lambda_handler"]
-```
+  ```Dockerfile
+  # Use AWS Lambda Python 3.10 base image
+  FROM public.ecr.aws/lambda/python:3.10
+  
+  # Install necessary Python libraries
+  RUN pip install keras-image-helper
+  RUN pip install numpy==1.23.1
+  RUN pip install --no-deps https://github.com/alexeygrigorev/tflite-aws-lambda/raw/main/tflite/tflite_runtime-2.14.0-cp310-cp310-linux_x86_64.whl
+  
+  # Copy the TensorFlow Lite model and Lambda function code into the image
+  COPY "chessmen-model.tflite" .
+  COPY "lambda_function.py" .
+  
+  # Specify the entry point for the AWS Lambda function
+  CMD ["lambda_function.lambda_handler"]
+  ```
 - For M1/M2 users build the image with --platform=linux/amd64 for compatibility:
 ```bash
 docker build --platform=linux/amd64 -t chessmen-tflite .
 ```
 - For Other Systems
 Use the standard build command:
-```bash
-docker build -t chessmen-tflite .
-```
+  ```bash
+  docker build -t chessmen-tflite .
+  ```
 - List the Docker images to confirm the build was successful:
-```bash
-docker images
-```
+  ```bash
+  docker images
+  ```
 - Run the container, mapping the port to 8081 (or any available port):
-```bash
-docker run -it --rm -p 8081:8080 chessmen-tflite
-```
+  ```bash
+  docker run -it --rm -p 8081:8080 chessmen-tflite
+  ```
 - Use the local_test.py script to test the container locally. The script should send an HTTP POST request to the running container at http://localhost:8081:
-```bash
-python local_test.py
-```
+  ```bash
+  python local_test.py
+  ```
 
 3. **Publishing the image to AWS ECR**
 - Install AWS CLI
-```bash
-pip install awscli
-```
+  ```bash
+  pip install awscli
+  ```
 - Create a new repository in AWS ECR:
-```bash
-aws ecr create-repository --repository-name chessman-tflite-image
-```
+  ```bash
+  aws ecr create-repository --repository-name chessman-tflite-image
+  ```
 - After creating the repository, configure the environment variables:
-```bash
-ACCOUNT=481665108850
-REGION=us-east-1
-REGISTRY=chessman-tflite-image
-PREFIX=${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${REGISTRY}
-TAG=chessman-model-vgg-v1
-REMOTE_URI=${PREFIX}:${TAG}
-
-echo ${REMOTE_URI}
-```
+  ```bash
+  ACCOUNT=481665108850
+  REGION=us-east-1
+  REGISTRY=chessman-tflite-image
+  PREFIX=${ACCOUNT}.dkr.ecr.${REGION}.amazonaws.com/${REGISTRY}
+  TAG=chessman-model-vgg-v1
+  REMOTE_URI=${PREFIX}:${TAG}
+  
+  echo ${REMOTE_URI}
+  ```
 - Tag the locally built Docker image:
-```bash
-docker tag chessmen-tflite:latest ${REMOTE_URI}
-```
+  ```bash
+  docker tag chessmen-tflite:latest ${REMOTE_URI}
+  ```
 - Push the image to the AWS ECR repository:
-```bash
-docker push ${REMOTE_URI}
-```
+  ```bash
+  docker push ${REMOTE_URI}
+  ```
 - Create a Lambda Function with the ECR Image
   - Open the AWS Lambda console.
   - Choose "Create function" and select the "Container image" option.
@@ -254,11 +257,11 @@ docker push ${REMOTE_URI}
     Memory: 512 MB
     Timeout: 30 seconds
   - Create and save a test event with the required input data. For example:
-  ```bash
-  {
-    "url": "https://example.com/image.jpg"
-  }
-  ```
+    ```bash
+    {
+      "url": "https://example.com/image.jpg"
+    }
+    ```
   - Run the test. Verify that the Lambda function executes successfully and returns the expected output.
 - Expose the Lambda Function via API Gateway
   - Create a New REST API
@@ -270,7 +273,7 @@ docker push ${REMOTE_URI}
   - Link the method to the created Lambda function.
   - Deploy the API by creating a stage (e.g., chessman).
 - Test the Lambda Function via API Gateway
-  - Run the python script (cloud_test.py) to test the deployed API Gateway endpoint:
+  - Run the python script (cloud_test.py) to test the deployed API Gateway endpoint.
 
 
 
