@@ -251,6 +251,8 @@ Use the standard build command:
   ```bash
   docker push ${REMOTE_URI}
   ```
+  ![ECR](https://github.com/Naga-Manohar-Y/Classifying_Chessmen/blob/main/Project_Media/ECR.png)
+
 - Create a Lambda Function with the ECR Image
   - Open the AWS Lambda console.
   - Choose "Create function" and select the "Container image" option.
@@ -266,6 +268,7 @@ Use the standard build command:
     }
     ```
   - Run the test. Verify that the Lambda function executes successfully and returns the expected output.
+    ![Lambda_function](https://github.com/Naga-Manohar-Y/Classifying_Chessmen/blob/main/Project_Media/Lambda_function.png)
 - Expose the Lambda Function via API Gateway
   - Create a New REST API
   - Go to the API Gateway console.
@@ -275,6 +278,7 @@ Use the standard build command:
   - Under the created resource, add a new method with the POST type.
   - Link the method to the created Lambda function.
   - Deploy the API by creating a stage (e.g., chessman).
+    ![API_Gateway](https://github.com/Naga-Manohar-Y/Classifying_Chessmen/blob/main/Project_Media/API_Gateway.png)
 - Test the Lambda Function via API Gateway
   - Run the python script (cloud_test.py) to test the deployed API Gateway endpoint.
 
