@@ -199,9 +199,9 @@ http://localhost:9696/predict
   CMD ["lambda_function.lambda_handler"]
   ```
 - For M1/M2 users build the image with --platform=linux/amd64 for compatibility:
-```bash
-docker build --platform=linux/amd64 -t chessmen-tflite .
-```
+  ```bash
+  docker build --platform=linux/amd64 -t chessmen-tflite .
+  ```
 - For Other Systems
 Use the standard build command:
   ```bash
