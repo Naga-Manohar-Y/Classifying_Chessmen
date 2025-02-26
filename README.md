@@ -9,7 +9,9 @@ This project aims to classify chess pieces (e.g., King, Queen, Bishop, etc.) usi
 Chess is a game of strategy, precision, and intellectual mastery. Accurately identifying chess pieces from images is a step toward automating chess game analysis, enhancing digital chess applications, and providing innovative solutions for enthusiasts and developers. This project aims to classify chess pieces—King, Queen, Rook, Bishop, Knight, and Pawn—using advanced machine learning techniques with a focus on accuracy and deployment readiness.
 
 ---
-
+## Architecture Overview
+![Architecture Diagram](https://github.com/Naga-Manohar-Y/Classifying_Chessmen/blob/main/Project_Media/chessman_architecture.png)
+---
 ## Project Workflow
 
 ### 1. **Exploratory Data Analysis (EDA)**
