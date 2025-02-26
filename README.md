@@ -1,4 +1,4 @@
-# ♟️ Chessmen Classification Using Deep Learning
+# ♟️ Chessman Classification Using Deep Learning
 This project aims to classify chess pieces (e.g., King, Queen, Bishop, etc.) using a deep learning model. The solution involves data preprocessing, model training, and deploying the trained model as a Flask web service. Finally, the model is deployed on AWS using Lambda, ECR, and API Gateway.
 
 ![App](https://github.com/Naga-Manohar-Y/Classifying_Chessmen/blob/main/Project_Media/Chessman.gif)
@@ -83,7 +83,7 @@ http://localhost:9696/predict
 
 ---
 
-## 📦 Containerization
+## 🐳 Containerization
 
 - A **Dockerfile** is provided for containerizing the application. The Docker container includes the following:
   - Installation of required dependencies using `pipenv`.
@@ -92,7 +92,7 @@ http://localhost:9696/predict
 
 ---
 
-## How to Run It
+## 🏃 How to Run It
 
 ### Prerequisites
 - Python 3.12+
