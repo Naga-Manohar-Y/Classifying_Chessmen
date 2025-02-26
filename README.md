@@ -1,20 +1,20 @@
-# Chessmen Classification Using Deep Learning
+# ♟️ Chessmen Classification Using Deep Learning
 This project aims to classify chess pieces (e.g., King, Queen, Bishop, etc.) using a deep learning model. The solution involves data preprocessing, model training, and deploying the trained model as a Flask web service. Finally, the model is deployed on AWS using Lambda, ECR, and API Gateway.
 
 ![App](https://github.com/Naga-Manohar-Y/Classifying_Chessmen/blob/main/Project_Media/Chessman.gif)
 
 
-## Problem Description
+## 🏆 Problem Description
 
 Chess is a game of strategy, precision, and intellectual mastery. Accurately identifying chess pieces from images is a step toward automating chess game analysis, enhancing digital chess applications, and providing innovative solutions for enthusiasts and developers. This project aims to classify chess pieces—King, Queen, Rook, Bishop, Knight, and Pawn—using advanced machine learning techniques with a focus on accuracy and deployment readiness.
 
 ---
-## Architecture Overview
+## 🏗️ Architecture Overview
 ![Architecture Diagram](https://github.com/Naga-Manohar-Y/Classifying_Chessmen/blob/main/Project_Media/chessman_architecture.png)
 ---
-## Project Workflow
+## 🔄 Project Workflow
 
-### 1. **Exploratory Data Analysis (EDA)**
+### 1️⃣ **Exploratory Data Analysis (EDA)** 🕵️‍♂️
 EDA was conducted to understand the dataset better, including:
 - **Dataset Overview:** This dataset is structured into six directories, one for each chess piece. Each subfolder contains labeled images of the respective chess piece.
 - **Source:** [Kaggle Chessman Dataset](https://www.kaggle.com/datasets/niteshfre/chessman-image-dataset/data)
@@ -23,7 +23,7 @@ EDA was conducted to understand the dataset better, including:
 - **Insights:** Key observation that influenced preprocessing and model architecture decisions is less number of images (600 images).
   - So I applied data augmentation which helps the model to train on different variations of images.
 
-### 2. **Model Training**
+### 2️⃣ **Model Training** 🏋️‍♂️
 - Model Architectures used:
   - **VGG19**
   - **MobileNet**
@@ -39,14 +39,14 @@ EDA was conducted to understand the dataset better, including:
 - Results: VGG19 outperformed other models due to its simplicity and efficiency in handling this dataset.
 - Finally trained the larger model (**image_size - 299 x 299**) in `train.py` which gave **98.2%** accuracy on validation_data.
 
-### 3. **Exporting Notebook to Script**
+### 3️⃣ **Exporting Notebook to Script** 📜
 - To streamline deployment, the Jupyter Notebook was converted into a Python script. This ensures reproducibility and simplifies integration into the deployment pipeline.
 - `train.py` for training the model
 - `predict.py` for local inference
 - `chessmen_predict.py` for inference from web service using Flask
 - Note: If you want try tensorflowlite model refer to `tflite_model.py`
 
-### 4. **Model Deployment**
+### 4️⃣ **Model Deployment** 🚀
 The trained model was deployed as a RESTful API using Flask and Gunicorn. The service allows users to:
 
 - Send an image URL to the endpoint.
@@ -64,13 +64,13 @@ http://localhost:9696/predict
 
 ```
 
-### 5. **Reproducibility**
+### 5️⃣ **Reproducibility** 🔄
 - Reproducibility is ensured by using clear scripts (`train.py` and `chessmen_predict.py`), specifying dependencies in `Pipfile`, and documenting each step.
 - Application is containerized using Docker for consistency and scalability.
 
 ---
 
-## Dependency and Environment Management
+## 🛠️ Dependency and Environment Management
 
 - **Pipfile** and **Pipfile.lock** are used to define and lock the Python dependencies for the project.
 - **Key Dependencies**:
@@ -83,7 +83,7 @@ http://localhost:9696/predict
 
 ---
 
-## Containerization
+## 📦 Containerization
 
 - A **Dockerfile** is provided for containerizing the application. The Docker container includes the following:
   - Installation of required dependencies using `pipenv`.
